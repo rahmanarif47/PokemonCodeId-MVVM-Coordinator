@@ -10,23 +10,21 @@ import RxSwift
 
 final class AFSession {
     static let shared = AFSession()
-    private let session: Session = {
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 20
-        return Session(configuration: config)
-    }()
+    private init() {}
 
-    func get<T: Decodable>(_ url: URL, params: [String: Any]? = nil) -> Single<T> {
-        Single.create { single in
-            let request = self.session.request(url, method: .get, parameters: params)
-                .validate(statusCode: 200..<300)
-                .responseDecodable(of: T.self) { resp in
-                    switch resp.result {
-                    case .success(let value): single(.success(value))
-                    case .failure(let error): single(.failure(error))
+    func get<T: Decodable>(_ type: T.Type, url: URL, params: [String: Any]? = nil) -> Single<T> {
+        return Single.create { single in
+            AF.request(url, parameters: params)
+                .validate()
+                .responseDecodable(of: T.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        single(.success(value))
+                    case .failure(let error):
+                        single(.failure(error))
                     }
                 }
-            return Disposables.create { request.cancel() }
+            return Disposables.create()
         }
     }
 }

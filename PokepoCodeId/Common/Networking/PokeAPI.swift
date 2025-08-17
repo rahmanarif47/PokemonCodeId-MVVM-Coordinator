@@ -9,21 +9,26 @@ import Foundation
 
 enum PokeAPI {
     static let base = URL(string: "https://pokeapi.co/api/v2")!
-
+    
     struct ListResponse: Decodable {
-        let count: Int
-        let next: String?
-        let previous: String?
-        let results: [Item]
-        struct Item: Decodable { let name: String; let url: String }
+        let results: [ListItem]
+        
+        struct ListItem: Decodable {
+            let name: String
+            let url: String
+        }
     }
-
+    
     struct PokemonDetailResponse: Decodable {
         let name: String
-        let abilities: [AbilityWrap]
-        struct AbilityWrap: Decodable {
+        let abilities: [AbilityEntry]
+        
+        struct AbilityEntry: Decodable {
             let ability: Ability
-            struct Ability: Decodable { let name: String }
+            
+            struct Ability: Decodable {
+                let name: String
+            }
         }
     }
 }

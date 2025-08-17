@@ -36,7 +36,7 @@ final class TabsPagerController: ButtonBarPagerTabStripViewController {
         super.viewDidLoad()
     }
 
-    override func configure(cell: ButtonBarViewCell, for indicatorInfo: IndicatorInfo) {
+    func configure(cell: ButtonBarViewCell, for indicatorInfo: IndicatorInfo) {
         cell.label.text = indicatorInfo.title
     }
 }

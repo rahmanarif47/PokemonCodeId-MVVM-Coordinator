@@ -7,8 +7,8 @@
 
 import RealmSwift
 
-class RMUser: Object {
-    @Persisted(primaryKey: true) var id: String = UUID().uuidString
+final class RMUser: Object {
+    @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var username: String = ""
     @Persisted var passwordHash: String = ""
 }

@@ -1,8 +1,7 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '16.0'
 
 target 'PokepoCodeId' do
-  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for PokepoCodeId
@@ -23,5 +22,19 @@ target 'PokepoCodeId' do
   target 'PokepoCodeIdUITests' do
     # Pods for testing
   end
+end
 
+# 👉 post_install harus di luar semua target
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      flags = config.build_settings['OTHER_LDFLAGS']
+      if flags.is_a?(Array)
+        # Buang semua yang nyebut libarclite / objc-arc
+        config.build_settings['OTHER_LDFLAGS'] = flags.reject { |f|
+          f.include?("libarclite") || f.include?("objc-arc")
+        }
+      end
+    end
+  end
 end

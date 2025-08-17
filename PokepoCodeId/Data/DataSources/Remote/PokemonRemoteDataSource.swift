@@ -11,12 +11,16 @@ final class PokemonRemoteDataSource {
     func fetchPage(limit: Int, page: Int) -> Single<[PokemonListItem]> {
         let offset = page * limit
         let url = PokeAPI.base.appendingPathComponent("pokemon")
+        
         return AFSession.shared.get(PokeAPI.ListResponse.self, url: url, params: ["limit": limit, "offset": offset])
-            .map { $0.results.map { PokemonListItem(name: $0.name) } }
+            .map { resp in
+                resp.results.map { PokemonListItem(name: $0.name) }
+            }
     }
 
     func fetchDetail(name: String) -> Single<PokemonDetail> {
         let url = PokeAPI.base.appendingPathComponent("pokemon/\(name.lowercased())")
+        
         return AFSession.shared.get(PokeAPI.PokemonDetailResponse.self, url: url)
             .map { resp in
                 PokemonDetail(

@@ -7,6 +7,7 @@
 
 import RxSwift
 import CryptoKit
+import Foundation
 
 final class AuthLocalDataSource {
     func register(username: String, password: String) -> Single<User> {

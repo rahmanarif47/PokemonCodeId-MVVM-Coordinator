@@ -1,6 +1,0 @@
-framework module Pods_PokepoCodeId_PokepoCodeIdUITests {
-  umbrella header "Pods-PokepoCodeId-PokepoCodeIdUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -14,13 +14,21 @@ final class MainTabBarController: UITabBarController {
     init(di: DIContainer, user: User) {
         self.di = di; self.user = user
         super.init(nibName: nil, bundle: nil)
+        setupTabs()
     }
     required init?(coder: NSCoder) { fatalError() }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let pager = TabsPagerController(di: di, user: user)
-        pager.tabBarItem = UITabBarItem(title: "Pages", image: UIImage(systemName: "square.grid.2x2"), selectedImage: nil)
-        viewControllers = [UINavigationController(rootViewController: pager)]
+    private func setupTabs() {
+        let homeVC = HomeViewController(
+            viewModel: .init(getPageUC: di.getPageUC, searchUC: di.searchUC)
+        )
+        let homeNav = UINavigationController(rootViewController: homeVC)
+        homeNav.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+
+        let profileVC = ProfileViewController(user: user)
+        let profileNav = UINavigationController(rootViewController: profileVC)
+        profileNav.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.circle"), tag: 1)
+
+        viewControllers = [homeNav, profileNav]
     }
 }

@@ -8,49 +8,70 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import XLPagerTabStrip
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController, IndicatorInfoProvider {
+    func indicatorInfo(for pagerTabStripController: XLPagerTabStrip.PagerTabStripViewController) -> XLPagerTabStrip.IndicatorInfo {
+        return IndicatorInfo(title: "Home")
+    }
+    
     private let vm: HomeViewModel
     private let bag = DisposeBag()
-
+    
     private let table = UITableView()
-    private let searchBtn = UIBarButtonItem(systemItem: .search)
-
+    private lazy var searchBtn: UIBarButtonItem = {
+        if #available(iOS 14.0, *) {
+            return UIBarButtonItem(
+                systemItem: .search,
+                primaryAction: UIAction { [weak self] _ in
+                    self?.presentSearch()
+                },
+                menu: nil
+            )
+        } else {
+            return UIBarButtonItem(
+                barButtonSystemItem: .search,
+                target: self,
+                action: #selector(searchButtonTapped)
+            )
+        }
+    }()
+    
     init(viewModel: HomeViewModel) {
         self.vm = viewModel
         super.init(nibName: nil, bundle: nil)
         self.title = "Home"
     }
     required init?(coder: NSCoder) { fatalError() }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = searchBtn
         setupTable()
-
+        
         vm.items.bind(to: table.rx.items(cellIdentifier: PokemonCell.reuse, cellType: PokemonCell.self)) { _, item, cell in
             cell.fill(item)
         }.disposed(by: bag)
-
+        
         table.rx.modelSelected(PokemonListItem.self)
             .subscribe(onNext: { [weak self] item in
                 self?.openDetailByName(item.name)
             }).disposed(by: bag)
-
+        
         vm.isLoading.asDriver().drive(onNext: { [weak self] loading in
             loading ? self?.showHUD("Loading...") : self?.hideHUD()
         }).disposed(by: bag)
-
+        
         vm.error.subscribe(onNext: { [weak self] msg in
             self?.showAlert(msg)
         }).disposed(by: bag)
-
+        
         vm.openDetail.subscribe(onNext: { [weak self] detail in
             let vc = PokemonDetailViewController(viewModel: .init(initialDetail: detail))
             self?.navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: bag)
-
+        
         // Pagination trigger (infinite scroll)
         table.rx.contentOffset
             .map { [weak self] offset -> Bool in
@@ -63,31 +84,44 @@ final class HomeViewController: UIViewController {
             .map { _ in () }
             .bind(to: vm.loadNextPage)
             .disposed(by: bag)
-
+        
         // initial load
         vm.refresh.accept(())
         bindSearch()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        table.reloadData()
+    }
+    
+    
+    @objc private func searchButtonTapped() {
+        presentSearch()
+    }
+    
     private func setupTable() {
         table.register(PokemonCell.self, forCellReuseIdentifier: PokemonCell.reuse)
+        table.rowHeight = 80
         table.tableFooterView = UIView()
-        view.addSubview(table)
+        table.separatorInset = .zero
         table.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(table)
+        
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            table.topAnchor.constraint(equalTo: view.topAnchor),
             table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             table.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-
+    
     private func bindSearch() {
         searchBtn.rx.tap.subscribe(onNext: { [weak self] in
             self?.presentSearch()
         }).disposed(by: bag)
     }
-
+    
     private func presentSearch() {
         let alert = UIAlertController(title: "Search Pokemon", message: "Enter name", preferredStyle: .alert)
         alert.addTextField()
@@ -99,9 +133,8 @@ final class HomeViewController: UIViewController {
         }))
         present(alert, animated: true)
     }
-
+    
     private func openDetailByName(_ name: String) {
-        // Jika dari list, fetch detail dulu lalu push
         showHUD("Loading...")
         DIContainer().getDetailUC.execute(name: name)
             .subscribe { [weak self] detail in

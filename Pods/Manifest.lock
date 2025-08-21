@@ -1,61 +1,16 @@
 PODS:
-  - Alamofire (5.10.2)
-  - Kingfisher (7.12.0)
   - MBProgressHUD (1.2.0)
-  - Realm (10.54.5):
-    - Realm/Headers (= 10.54.5)
-  - Realm/Headers (10.54.5)
-  - RealmSwift (10.54.5):
-    - Realm (= 10.54.5)
-  - RxCocoa (6.9.0):
-    - RxRelay (= 6.9.0)
-    - RxSwift (= 6.9.0)
-  - RxRelay (6.9.0):
-    - RxSwift (= 6.9.0)
-  - RxSwift (6.9.0)
-  - Wormholy (2.1.1):
-    - Wormholy/WormholyObjC (= 2.1.1)
-    - Wormholy/WormholySwift (= 2.1.1)
-  - Wormholy/WormholyObjC (2.1.1):
-    - Wormholy/WormholySwift
-  - Wormholy/WormholySwift (2.1.1)
-  - XLPagerTabStrip (9.1.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.9)
-  - Kingfisher (~> 7.12)
   - MBProgressHUD (~> 1.2)
-  - RealmSwift (~> 10.52)
-  - RxCocoa (~> 6.6)
-  - RxSwift (~> 6.6)
-  - Wormholy
-  - XLPagerTabStrip (~> 9.0)
 
 SPEC REPOS:
   trunk:
-    - Alamofire
-    - Kingfisher
     - MBProgressHUD
-    - Realm
-    - RealmSwift
-    - RxCocoa
-    - RxRelay
-    - RxSwift
-    - Wormholy
-    - XLPagerTabStrip
 
 SPEC CHECKSUMS:
-  Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
-  Kingfisher: 53a10ea35051a436b5fb626ca2dd8f3144d755e9
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  Realm: ac6ab7d43b76db2bdb48bbd097019bb621d860b8
-  RealmSwift: 7c258367cc498594aa989b7d9620989a276ad7f4
-  RxCocoa: ac16414696ae706516be3e1ab00fcce5bdc9be8a
-  RxRelay: 6b0c930e5cef57d5fe2032571e5e65b78e3cbdb1
-  RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
-  Wormholy: 1e8b1875eca3322b4da9efb61de3ca146f5164da
-  XLPagerTabStrip: 27f3bfe23c53b4251c6481b06b1c289458a3fc1d
 
-PODFILE CHECKSUM: a84f30f1b37ed223394c764ff6a324f436c45b34
+PODFILE CHECKSUM: 39830bca13cf4ff1378b7f7311c18fa5121b78c3
 
 COCOAPODS: 1.16.2

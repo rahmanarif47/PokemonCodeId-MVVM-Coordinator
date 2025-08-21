@@ -10,7 +10,6 @@ import Foundation
 final class DIContainer {
     let authRepo: AuthRepository = AuthRepositoryImpl()
     let pokemonRepo: PokemonRepository = PokemonRepositoryImpl()
-
     var registerUC: RegisterUserUseCase { .init(repo: authRepo) }
     var loginUC: LoginUserUseCase { .init(repo: authRepo) }
     var getPageUC: GetPokemonPageUseCase { .init(repo: pokemonRepo) }

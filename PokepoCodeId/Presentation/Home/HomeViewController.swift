@@ -72,7 +72,6 @@ final class HomeViewController: UIViewController, IndicatorInfoProvider {
             self?.navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: bag)
         
-        // Pagination trigger (infinite scroll)
         table.rx.contentOffset
             .map { [weak self] offset -> Bool in
                 guard let self else { return false }
@@ -85,7 +84,6 @@ final class HomeViewController: UIViewController, IndicatorInfoProvider {
             .bind(to: vm.loadNextPage)
             .disposed(by: bag)
         
-        // initial load
         vm.refresh.accept(())
         bindSearch()
     }

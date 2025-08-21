@@ -1,5 +1,5 @@
 {
-  "originHash" : "e1f0b371672bac14d3510e3fa77493ba46fd21a4e3954630a6a5cc24cd4fd739",
+  "originHash" : "8c62c0d7d8dcadbab2e75820c5f8d8fba44517aa919be3d6e505e3a4c9bde9fb",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -53,6 +53,15 @@
       "state" : {
         "revision" : "5dd1907d64f0d36f158f61a466bab75067224893",
         "version" : "6.9.0"
+      }
+    },
+    {
+      "identity" : "wormholy",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pmusolino/Wormholy",
+      "state" : {
+        "revision" : "54fdf4d01ccffc8276faf9be32d7d375a0321cab",
+        "version" : "2.1.1"
       }
     },
     {

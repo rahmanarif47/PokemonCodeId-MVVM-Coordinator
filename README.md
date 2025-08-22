@@ -1,4 +1,3 @@
-cat > README.md << 'EOF'
 # PokepoCodeId
 
 A sample iOS application built with **Swift, RxSwift, and MVVM architecture**, fetching data from [PokeAPI](https://pokeapi.co).

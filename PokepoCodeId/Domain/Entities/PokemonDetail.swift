@@ -1,0 +1,13 @@
+//
+//  PokemonDetail.swift
+//  PokepoCodeId
+//
+//  Created by Arif Rahman Mac Mini on 18/08/25.
+//
+
+import Foundation
+
+struct PokemonDetail {
+    let name: String
+    let abilities: [String]
+}
